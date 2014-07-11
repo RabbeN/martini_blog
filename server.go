@@ -19,7 +19,7 @@ type Blog struct {
 func main() {
 	m := martini.Classic()
 	// render html templates from directory
-	m.Use(render.Renderer("templates"))
+	m.Use(render.Renderer())
 
 	db, err := sql.Open("mysql", "root:root@unix(/Applications/MAMP/tmp/mysql/mysql.sock)/martini_blog")
 	if err != nil {
@@ -52,7 +52,7 @@ func main() {
 			panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 		}
 
-		r.HTML(200, "home.tmpl", blogs)
+		r.HTML(200, "home", blogs)
 	})
 
 	m.Get("/blog/:id", func(params martini.Params, r render.Render) {
@@ -77,7 +77,7 @@ func main() {
 			panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 		}
 
-		r.HTML(200, "blog.tmpl", blog)
+		r.HTML(200, "blog", blog)
 	})
 
 	m.Run()
